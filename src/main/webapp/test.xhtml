@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <title>Основная страница</title>
+    <h:outputScript library="js" name="get_value.js"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body styleClass=".body">
+    <p:panelGrid styleClass=".table">
+        <p:row>
+            <p:column colspan="2" styleClass="top1">
+                <p id="lab"><b>Лабораторная работа №3</b></p>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2" styleClass="top2">
+                <p id="name"><b>Выполнила:</b> Михайлова А.А.,
+                    <b>гр.</b> P3211
+                    <br></br>
+                    <b>Вариант:</b> 91752
+                </p>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column width="55%">
+                <p align="justify">
+                    Эта <span class="important">невероятно полезная</span> страница поможет вам определить, попадает ли
+                    точка в заданную область.
+                    <br></br>
+                    Просто задайте значения <span class="important">R, X, Y</span> - и вы узнаете ответ.
+                </p>
+            </p:column>
+            <p:column id="pict" rowspan="3">
+                <h:form id="canvas_form">
+                    <h:inputHidden id="canvas_x" value="#{pointBean.newPoint.x}"/>
+                    <h:inputHidden id="canvas_y" value="#{pointBean.newPoint.y}"/>
+                    <h:inputHidden id="canvas_r" value="#{pointBean.newPoint.r}"/>
+                    <h:commandButton id="canvas_but" style="display: none" action = "#{pointBean.addPoint}">
+                        <f:ajax execute="canvas_form" render="pointTable" onevent="redraw_points"/>
+                    </h:commandButton>
+                </h:form>
+                <canvas id="plot" width="300" height="300" style="background-color: white;"/>
+            </p:column>
+        </p:row>
+        <h:form id="form">
+            <p:row>
+                <p:column>
+                    <h:inputHidden id="hidden_x" value="#{pointBean.newPoint.x}"/>
+                    <h2>Изменение X</h2>
+                    <p>
+                        Задайте значение для координаты X.
+                    </p>
+                    <div>
+                        <h:selectBooleanCheckbox  id="a" value="true" class="x_cb" onclick="click_x(this)"/>
+                        <h:outputLabel for="a" value="-3"/>
+
+                        <h:selectBooleanCheckbox  id="b" class="x_cb" onclick="click_x(this)" />
+                        <h:outputLabel for="b" value="-2"/>
+
+                        <h:selectBooleanCheckbox  id="c" class="x_cb"  onclick="click_x(this)"/>
+                        <h:outputLabel for="c" value="-1"/>
+
+                        <h:selectBooleanCheckbox  id="d" class="x_cb" onclick="click_x(this)"/>
+                        <h:outputLabel for="d" value="0"/>
+
+                        <h:selectBooleanCheckbox  id="e" class="x_cb"  onclick="click_x(this)"/>
+                        <h:outputLabel for="e" value="1"/>
+
+                        <h:selectBooleanCheckbox  id="f" class="x_cb"  onclick="click_x(this)"/>
+                        <h:outputLabel for="f" value="2"/>
+
+                        <h:selectBooleanCheckbox id="g" class="x_cb" onclick="click_x(this)"/>
+                        <h:outputLabel for="g" value="3"/>
+                    </div>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h2>Изменение Y</h2>
+                    <p>
+                        Задайте значение для координаты Y (-3 ... 3).
+                    </p>
+                    <h:inputText id="y" maxlength="16" required="true" value="#{pointBean.newPoint.y}"
+                                 pt:placeholder = "от -3 до 3" requiredMessage="Y должен быть указан"
+                                 converterMessage="Y должен быть числом"
+                                 autocomplete="off">
+                        <f:validator validatorId="Y_validator"/>
+                    </h:inputText>
+                    <h:message for="y"  showSummary="true" showDetail="false" styleClass="warning"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                    <h:inputHidden id="hidden_r" value="#{pointBean.newPoint.r}"/>
+                    <h2>Изменение R</h2>
+                    <p>
+                        Задайте значение для радиуса R.
+                    </p>
+                    <div>
+                        <h:commandButton value="1" styleClass="button button_r" onclick="return click_r(this)"/>
+                        <h:commandButton value="2" styleClass="button button_r" onclick="return click_r(this)"/>
+                        <h:commandButton value="3" styleClass="button button_r focused" onclick="return click_r(this)"/>
+                        <h:commandButton value="4" styleClass="button button_r" onclick="return click_r(this)"/>
+                        <h:commandButton value="5" styleClass="button button_r" onclick="return click_r(this)"/>
+                    </div>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                    <div>
+                        <h:commandButton value="Проверить" styleClass="button send_button" action = "#{pointBean.addPoint}" render="pointTable">
+                        </h:commandButton>
+                    </div>
+                </p:column>
+            </p:row>
+        </h:form>
+    </p:panelGrid>
+
+    <h:panelGroup>
+        <h:dataTable value="#{pointBean.points}" var="point" id="pointTable" >
+            <h:column styleClass="x">
+                <f:facet name="header">X</f:facet>
+                #{point.x}
+            </h:column>
+
+            <h:column styleClass="y">
+                <f:facet name="header">Y</f:facet>
+                #{point.y}
+            </h:column>
+
+            <h:column styleClass="r">
+                <f:facet name="header">R</f:facet>
+                #{point.r}
+            </h:column>
+            <h:column styleClass="hit">
+                <f:facet name="header">Hit</f:facet>
+                #{point.hit ? 'Да' : 'Нет'}
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+</h:body>
+</html>

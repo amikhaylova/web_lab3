@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Стартовая страница</title>
+    <h:outputScript library="js" name="check.js"/>
+    <h:outputScript library="js" name="clock.js"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <table>
+        <tr>
+            <td class="top1" colspan="4">
+                <p id="lab"><b>Лабораторная работа №3</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="top2" colspan="4">
+                <p id="name"><b>Выполнила:</b> Михайлова А.А.,
+                    <b>гр.</b> P3211
+                    <b>Вариант:</b> 91752
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">
+                <br></br>
+                <p><b>Текущая дата:</b>
+                    <span id="date">date</span>
+                </p>
+                <br></br>
+                <p><b>Текущее время:</b>
+                    <span id="clock">date</span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">
+                <div>
+                    <h:button value="Перейти к проверке" outcome="check" id="back_but"/>
+                </div>
+            </td>
+        </tr>
+    </table>
+</h:body>
+</html>

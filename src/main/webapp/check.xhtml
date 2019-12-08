@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Пример</title>
+</h:head>
+<h:body>
+    <h:form id="newPointForm">
+        <div>
+            <h:outputLabel for="x" value="X"/>
+            <h:inputText id="x" value="#{pointBean.newPoint.x}"/>
+        </div>
+        <div>
+            <h:outputLabel for="y" value="Y"/>
+            <h:inputText id="y" value="#{pointBean.newPoint.y}"/>
+        </div>
+        <div>
+            <h:outputLabel for="r" value="R"/>
+            <h:inputText id="r" value="#{pointBean.newPoint.r}"/>
+        </div>
+        <h:commandButton value="Добавить" action="#{pointBean.addPoint}">
+            <f:ajax execute="newPointForm" render="pointTable"/>
+        </h:commandButton>
+    </h:form>
+
+    <h:panelGroup >
+        <h:dataTable id="pointTable" value="#{pointBean.points}" var="point">
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                #{point.x}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                #{point.y}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">R</f:facet>
+                #{point.r}
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+</h:body>
+</html>
