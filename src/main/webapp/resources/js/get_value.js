@@ -174,3 +174,18 @@ function back_to_X_pix(x, new_r){
 function back_to_Y_pix(y, new_r){
     return (-100*y+150*new_r)/new_r;
 }
+
+function after_request() {
+    redraw_points();
+    for (var i = 0; i < x_buttons.length; i++) {
+        x_buttons[i].checked = false;
+    }
+    x_buttons[0].checked = true;
+    for (var i = 0; i < r_buttons.length; i++) {
+        r_buttons[i].classList.remove("focused");
+    }
+    r_buttons[2].classList.add("focused");
+    document.getElementById("form:hidden_r").value = 3;
+    document.getElementById("form:hidden_x").value = -3;
+    document.getElementById("form:y").value = "";
+}

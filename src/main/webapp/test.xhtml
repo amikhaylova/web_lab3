@@ -13,7 +13,7 @@
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body styleClass=".body">
-    <p:panelGrid styleClass=".table">
+    <p:panelGrid>
         <p:row>
             <p:column colspan="2" styleClass="top1">
                 <p id="lab"><b>Лабораторная работа №3</b></p>
@@ -93,7 +93,7 @@
                                  autocomplete="off">
                         <f:validator validatorId="Y_validator"/>
                     </h:inputText>
-                    <h:message for="y"  showSummary="true" showDetail="false" styleClass="warning"/>
+                    <h:message for="y"  showSummary="true" showDetail="false" styleClass="warning" id="message"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -116,14 +116,20 @@
                 <p:column colspan="2">
                     <div>
                         <h:commandButton value="Проверить" styleClass="button send_button" action = "#{pointBean.addPoint}" render="pointTable">
+                            <f:ajax execute="form" render="pointTable message" onevent="after_request"/>
                         </h:commandButton>
                     </div>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2" styleClass="bottom">
                 </p:column>
             </p:row>
         </h:form>
     </p:panelGrid>
 
-    <h:panelGroup>
+
+    <div style="height: 300px; overflow: auto;">
         <h:dataTable value="#{pointBean.points}" var="point" id="pointTable" >
             <h:column styleClass="x">
                 <f:facet name="header">X</f:facet>
@@ -144,6 +150,6 @@
                 #{point.hit ? 'Да' : 'Нет'}
             </h:column>
         </h:dataTable>
-    </h:panelGroup>
+    </div>
 </h:body>
 </html>
