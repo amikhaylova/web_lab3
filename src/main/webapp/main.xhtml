@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Основная страница</title>
@@ -115,7 +113,7 @@
             <p:row>
                 <p:column colspan="2">
                     <div>
-                        <h:commandButton value="Проверить" styleClass="button send_button" action = "#{pointBean.addPoint}" render="pointTable">
+                        <h:commandButton value="Проверить" styleClass="button send_button" action = "#{pointBean.addPoint}" render="pointTable" id="submit">
                             <f:ajax execute="form" render="pointTable message" onevent="after_request"/>
                         </h:commandButton>
                     </div>
@@ -128,9 +126,25 @@
         </h:form>
     </p:panelGrid>
 
+    <p:panelGrid>
+        <h:form id="clear_form">
+            <p:row>
+                <p:column style="text-align: center;background-color: white;">
+                    <div id="but_div">
+                        <h:commandButton id="clear_but" value="Очистить историю" styleClass="button send_button" action = "#{pointBean.clearHistory}" render="pointTable">
+                            <f:ajax execute="clear_form" render="pointTable" onevent="after_clear()"/>
+                        </h:commandButton>
+                    </div>
+                </p:column>
+            </p:row>
+        </h:form>
+    </p:panelGrid>
 
-    <div style="height: 300px; overflow: auto;">
-        <h:dataTable value="#{pointBean.points}" var="point" id="pointTable" >
+
+    <div style="height: 300px; overflow: auto;" id="table_div">
+
+        <h:dataTable value="#{pointBean.points}" var="point" id="pointTable" class="pointTable" >
+
             <h:column styleClass="x">
                 <f:facet name="header">X</f:facet>
                 #{point.x}
@@ -145,6 +159,7 @@
                 <f:facet name="header">R</f:facet>
                 #{point.r}
             </h:column>
+
             <h:column styleClass="hit">
                 <f:facet name="header">Hit</f:facet>
                 #{point.hit ? 'Да' : 'Нет'}

@@ -37,7 +37,7 @@ function click_x(element){
      element.classList.add("focused");
      r_value = element.value;
      document.getElementById("form:hidden_r").value = element.value;
-     redraw_points();
+     redraw_points_on_r_change();
      return false;
  }
 
@@ -105,12 +105,6 @@ function checkPoint(e) {
 
     //redraw_points();
 }
-function getCursorPosition(e) {
-    xx = e.clientX - left;
-    yy = e.clientY - top;
-    x = (r_value / 100 * (e.clientX - left - 150)).toFixed(6);
-    y = (-r_value / 100 * (e.clientY - top - 150)).toFixed(6);
-}
 
 function getCP_X_pix(e) {
     var br = plot_canvas.getBoundingClientRect();
@@ -135,6 +129,10 @@ function getCP_Y_canvas(y_pix, r) {
 }
 
 function redraw_points() {
+    if (document.getElementById("table_div").style.display == "none"){
+        document.getElementById("table_div").style.display =  "block";
+        document.getElementById("but_div").style.display =  "block";
+    }
     var table_x = document.getElementsByClassName("x");
     var table_y = document.getElementsByClassName("y");
     var table_r = document.getElementsByClassName("r");
@@ -188,4 +186,36 @@ function after_request() {
     document.getElementById("form:hidden_r").value = 3;
     document.getElementById("form:hidden_x").value = -3;
     document.getElementById("form:y").value = "";
+    document.getElementById("form:submit").blur();
+}
+
+ function after_clear() {
+     console.log("я здесь");
+     document.getElementById("clear_form:clear_but").blur();
+     console.log("я здесь!");
+     ctx.clearRect(0, 0, 300, 300);
+     draw_canvas();
+     document.getElementById("table_div").style.display = "none";
+     document.getElementById("but_div").style.display =  "none";
+ }
+
+function redraw_points_on_r_change() {
+    var table_x = document.getElementsByClassName("x");
+    var table_y = document.getElementsByClassName("y");
+    var table_r = document.getElementsByClassName("r");
+    var table_hit = document.getElementsByClassName("hit");
+
+    if ((table_hit.length != 0) && (table_x.length != 0) && (table_y.length != 0) && (table_r.length != 0)) {
+        ctx.clearRect(0, 0, 300, 300);
+        draw_canvas();
+        for (var i = 0; i < table_hit.length; i++) {
+            if (parseFloat(table_r[i].innerHTML) != r_value){
+                draw_point(back_to_X_pix(table_x[i].innerHTML, r_value),back_to_Y_pix(table_y[i].innerHTML, r_value), "");
+            }else{
+                draw_point(back_to_X_pix(table_x[i].innerHTML, table_r[i].innerHTML),
+                    back_to_Y_pix(table_y[i].innerHTML, table_r[i].innerHTML),
+                    table_hit[i].innerHTML.trim());
+            }
+        }
+    }
 }

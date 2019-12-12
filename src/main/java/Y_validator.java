@@ -7,7 +7,6 @@ import javax.faces.validator.ValidatorException;
 
 @FacesValidator(value = "Y_validator")
 public class Y_validator implements Validator {
-    @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         try {
             double parsedValue = Double.parseDouble(o.toString());

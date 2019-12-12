@@ -139,7 +139,8 @@ option{
     font-size: medium;
     margin: 0;
 }
-.top1, th{
+.top1{
+    padding: 1.3% 2%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background: #aec4c7;
@@ -205,4 +206,28 @@ th{
 }
 .ui-panelgrid-cell, .ui-widget-content {
     border: none !important;
+}
+#pointTable tr:first-child td{
+    background: #e0f7fa;
+}
+
+#pointTable th{
+    background: #aec4c7;
+    color: #ffffff;
+    text-align: center;
+    padding: 1.3% 2%;
+}
+
+#pointTable th:first-child{
+    border-top-left-radius: 10px;
+}
+#pointTable th:last-child{
+    border-top-right-radius: 10px;
+}
+
+#pointTable tr:last-child td:first-child{
+    border-bottom-left-radius: 10px;
+}
+#pointTable tr:last-child td:last-child{
+    border-bottom-right-radius: 10px;
 }
